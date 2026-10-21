@@ -1,6 +1,13 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import fs from "node:fs";
+
+// All files are uploaded in one flat folder, so copy the icons into "public" at build time.
+fs.mkdirSync("public", { recursive: true });
+for (const f of ["favicon.svg", "apple-touch-icon.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png"]) {
+  if (fs.existsSync(f)) fs.copyFileSync(f, "public/" + f);
+}
 
 export default defineConfig({
   base: "./",
